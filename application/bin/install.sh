@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## Clone repo to install location.
-git clone git://github.com/lmbbox/lampp.git /usr/share/lampp
+git clone --recursive git://github.com/lmbbox/lampp.git /usr/share/lampp
 
 ## Copy sudoers file.
 cp /usr/share/lampp/application/config/sudoers /etc/sudoers.d/lampp
