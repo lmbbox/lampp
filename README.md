@@ -32,6 +32,6 @@ Make note on Site creation about RewriteBase required because of using VirtualDo
 
 Build update script to pull from repo.
 
-Import into Git and GitHub.
+Add support for managing user accounts. (Did I mean shell users?)
 
-Create script to upgrade to PHP 5.4
+Add support for managing SSH keys for users.
