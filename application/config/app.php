@@ -31,6 +31,14 @@ $config['app_sites_fields']		= array(
 		'' => array(
 			'label'		=> 'None',
 			'value'		=> '',
+			'script'	=> '',
+			'source'	=> '',
+		),
+		'generate_dbinfo' => array(
+			'label'		=> 'Generate DB Info',
+			'value'		=> 'generate_dbinfo',
+			'script'	=> 'generate_dbinfo.sh',
+			'source'	=> '',
 		),
 		'drupal7' => array(
 			'label'		=> 'Drupal 7',

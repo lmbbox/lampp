@@ -4,15 +4,9 @@
 source $(dirname "${BASH_SOURCE[0]}")/../config/app.conf
 
 ## Normalize pathes
-TEMPLATE_URL=$1
-SITENAME=$2
-SITEPATH=$(readlink -f "$SITES_ROOT/$2")
-
-
-## Generate MySQL username, password, and database name
-DB_NAME="$(echo $SITENAME | tr -d "[:space:][:punct:]" | head -c 32)"
-DB_USER="$(echo $SITENAME | tr -d "[:space:][:punct:]" | head -c 16)"
-DB_PASS="$(cat /dev/urandom | tr -cd "[:alnum:]" | head -c 32)"
+SITENAME=$1
+SITEPATH=$(readlink -f "$SITES_ROOT/$1")
+TEMPLATE_URL=$2
 
 
 ## Do some checks
@@ -46,6 +40,12 @@ then
 	echo "Failed to download template source file. Please make sure this server can reach the source."
 	exit 3
 fi
+
+
+## Generate MySQL username, password, and database name
+DB_NAME="$(echo $SITENAME | tr -d "[:space:][:punct:]" | head -c 32)"
+DB_USER="$(echo $SITENAME | tr -d "[:space:][:punct:]" | head -c 16)"
+DB_PASS="$(cat /dev/urandom | tr -cd "[:alnum:]" | head -c 32)"
 
 
 ## Restore drush archive

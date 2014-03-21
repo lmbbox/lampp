@@ -200,7 +200,7 @@ class Sites_model extends CI_Model {
 			try
 			{
 				$template = $this->fields['template'][$site['template']];
-				$this->_exec("sudo -n '{$this->bin_root}/{$template['script']}' '{$template['source']}' '{$site['fullname']}'");
+				$this->_exec("sudo -n '{$this->bin_root}/{$template['script']}' '{$site['fullname']}' '{$template['source']}'");
 			}
 			catch (Exception $e)
 			{
