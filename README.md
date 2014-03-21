@@ -35,3 +35,9 @@ Build update script to pull from repo.
 Add support for managing user accounts. (Did I mean shell users?)
 
 Add support for managing SSH keys for users.
+
+MySQL Database and User creation during site creation.
+
+Add setting for app for base user name / id.
+
+Add feature to generate ssh key and set git configs.

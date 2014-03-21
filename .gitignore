@@ -16,8 +16,6 @@ Desktop.ini
 # Project Ignores #
 ###################
 
-.ref
-
 application/cache/*
 !application/cache/index.html
 !application/cache/.htaccess
