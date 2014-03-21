@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## Load conf file
-source $(dirname "${BASH_SOURCE[0]}")/../config/app.conf
+source "$(dirname "${BASH_SOURCE[0]}")/../config/app.conf"
 
 ## Normalize pathes
 SITENAME=$1
