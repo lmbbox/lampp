@@ -37,7 +37,7 @@ $config['app_sites_fields']		= array(
 		'generate_dbinfo' => array(
 			'label'		=> 'Generate DB Info',
 			'value'		=> 'generate_dbinfo',
-			'script'	=> 'generate_dbinfo.sh',
+			'script'	=> 'generate-dbinfo.sh',
 			'source'	=> '',
 		),
 		'drupal7' => array(
