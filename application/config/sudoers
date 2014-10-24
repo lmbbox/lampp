@@ -1,2 +1,2 @@
 
-www-data	ALL=(root)NOPASSWD: /usr/local/share/lampp/application/bin/*
+lampp	ALL=(root)NOPASSWD: /usr/local/share/lampp/application/bin/*
