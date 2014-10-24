@@ -86,11 +86,11 @@ class Sites_model extends CI_Model {
 		);
 	}
 	
-	public function validate_site($site, &$errors = array())
+	public function validate_site(&$site, &$errors = array())
 	{
 		$errors				= array();
-		$required_fields	= array('name', 'suffix');
-		$valid_fields		= array('fullname', 'name', 'suffix', 'template');
+		$required_fields	= array('name', 'suffix', 'phpversion', 'aliases');
+		$valid_fields		= array('fullname', 'name', 'suffix', 'phpversion', 'aliases', 'template');
 		
 		// Check required fields
 		if (empty($site) || !is_array($site) || 2 !== count(array_intersect($required_fields, array_keys($site))))
@@ -99,7 +99,7 @@ class Sites_model extends CI_Model {
 		}
 		
 		// Check each field's value
-		foreach ($site as $field => $value)
+		foreach ($site as $field => &$value)
 		{
 			if (!in_array($field, $valid_fields))
 			{
@@ -110,8 +110,24 @@ class Sites_model extends CI_Model {
 			// Check field
 			switch ($field)
 			{
+				case 'phpversion':
 				case 'template':
 					if (!isset($this->fields[$field][$value]))
+					{
+						$errors[] = array(
+							'name'		=> $field,
+							'status'	=> 'Field has an invalid value.',
+						);
+					}
+					break;
+				case 'aliases':
+					// Reformat to space seperated single line from multiline
+					$value = explode("\n", $value);
+					$value = array_filter($value, 'trim');
+					$value = implode(' ', $value);
+					
+					// Speical validation supporting * and space charaters
+					if (preg_match('/(\.\.)|([^a-z0-9\-\.\*\ ])/', $value))
 					{
 						$errors[] = array(
 							'name'		=> $field,
@@ -171,6 +187,17 @@ class Sites_model extends CI_Model {
 				continue;
 			}
 			
+			// Get PHP Version
+			$matches = array();
+			preg_match('/AddHandler php-fastcgi([0-9\.])*/', file_get_contents("{$site['server_path']}/vhost.conf"), $matches);
+			$parts['phpversion'] = $matches[1] ?: '';
+			
+			// Get Aliases and explode to new lines
+			$matches = array();
+			preg_match('/ServerAlias (.*)/', file_get_contents("{$site['server_path']}/vhost.conf"), $matches);
+			$parts['aliases'] = implode("\n", explode(' ', $matches[1] ?: ''));
+			
+			// Save sites parts
 			$sites[$key] = array_merge($sites[$key], $parts);
 		}
 		
@@ -193,7 +220,7 @@ class Sites_model extends CI_Model {
 			throw new Exception("The site already exists.");
 		}
 		
-		$this->_exec("sudo -n '{$this->bin_root}/copy.sh' '{$this->sites_template}' '{$site['fullname']}'");
+		$this->_exec("sudo -n '{$this->bin_root}/site-create.sh' '{$this->sites_template}' '{$site['fullname']}' '{$site['phpversion']}' '{$site['aliases']}'");
 		
 		if (isset($site['template']) && !empty($site['template']))
 		{
@@ -211,6 +238,30 @@ class Sites_model extends CI_Model {
 		}
 		
 		return TRUE;
+	}
+	
+	public function update($old, &$new)
+	{
+		// Normalize parameters
+		$old = (is_string($old)) ? $this->_parse_fullname($old) : $old;
+		$new = (is_string($new)) ? $this->_parse_fullname($new) : $new;
+		
+		$this->validate_site($old);
+		$this->_build_fullname($new);
+		$this->validate_site($new);
+		
+		if (!$this->get($old))
+		{
+			throw new Exception("The old site does not exists.");
+		}
+		
+		if ($this->get($new))
+		{
+			throw new Exception("The new site already exists.");
+		}
+		
+		// Update site
+		return $this->_exec("sudo -n '{$this->bin_root}/site-update.sh' '{$old['fullname']}' '{$new['fullname']}' '{$new['phpversion']}' '{$new['aliases']}'");
 	}
 	
 	public function move($old, &$new)
@@ -248,7 +299,7 @@ class Sites_model extends CI_Model {
 			throw new Exception("The site does not exists.");
 		}
 		
-		return $this->_exec("sudo -n '{$this->bin_root}/remove.sh' '{$site['fullname']}'");
+		return $this->_exec("sudo -n '{$this->bin_root}/site-delete.sh' '{$site['fullname']}'");
 	}
 }
 

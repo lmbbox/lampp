@@ -27,6 +27,28 @@ $config['app_sites_fields']		= array(
 			'value'		=> '.local',
 		),
 	),
+	'phpversion' => array(
+		'' => array(
+			'label'		=> 'System Default',
+			'value'		=> '',
+		),
+		'5.3' => array(
+			'label'		=> '5.3',
+			'value'		=> '5.3',
+		),
+		'5.4' => array(
+			'label'		=> '5.4',
+			'value'		=> '5.4',
+		),
+		'5.5' => array(
+			'label'		=> '5.5',
+			'value'		=> '5.5',
+		),
+		'5.6' => array(
+			'label'		=> '5.6',
+			'value'		=> '5.6',
+		),
+	),
 	'template' => array(
 		'' => array(
 			'label'		=> 'None',

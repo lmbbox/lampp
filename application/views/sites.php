@@ -66,6 +66,18 @@
 						'default': '',
 					},
 					{
+						'label': 'PHP Version:',
+						'name': 'phpversion.value',
+						'type': 'select',
+						'default': '',
+					},
+					{
+						'label': 'Aliases:',
+						'name': 'aliases',
+						'type': 'textarea',
+						'default': '',
+					},
+					{
 						'label': 'Template:',
 						'name': 'template.value',
 						'type': 'select',
@@ -118,6 +130,7 @@
 					// Set the allowed values for the select and radio fields based on
 					// what is available in the database
 					editor.field('suffix.value').update( json.data.fields.suffix );
+					editor.field('phpversion.value').update( json.data.fields.phpversion );
 					editor.field('template.value').update( json.data.fields.template );
 				},
 			} );

@@ -22,6 +22,14 @@ class Sites extends CI_Controller {
 			);
 		}
 		
+		if (is_string($site['phpversion']))
+		{
+			$site['phpversion']	= array(
+				'value'	=> $site['phpversion'],
+				'label'	=> $this->fields['phpversion'][$site['phpversion']]['label'],
+			);
+		}
+		
 		return $site;
 	}
 	
@@ -33,6 +41,12 @@ class Sites extends CI_Controller {
 			{
 				$errors[$key]['name'] = 'suffix.value';
 			}
+			
+			if ('phpversion' == $error['name'])
+			{
+				$errors[$key]['name'] = 'phpversion.value';
+			}
+			
 			if ('template' == $error['name'])
 			{
 				$errors[$key]['name'] = 'template.value';
@@ -107,6 +121,7 @@ class Sites extends CI_Controller {
 				// Get post data
 				$data = $this->input->post('data');
 				$data['suffix'] = $data['suffix']['value'];
+				$data['phpversion'] = $data['phpversion']['value'];
 				$data['template'] = $data['template']['value'];
 				
 				try
@@ -134,6 +149,7 @@ class Sites extends CI_Controller {
 				// Get post data
 				$data = $this->input->post('data');
 				$data['suffix'] = $data['suffix']['value'];
+				$data['phpversion'] = $data['phpversion']['value'];
 				unset($data['template']);
 				
 				try
@@ -146,7 +162,7 @@ class Sites extends CI_Controller {
 					}
 					
 					// Try to rename site
-					$this->sites_model->move($this->input->post('id'), $data);
+					$this->sites_model->update($this->input->post('id'), $data);
 					$site		= $this->sites_model->get($data);
 					$json->id	= $this->input->post('id');
 					$json->row	= $this->_format_site($site);
