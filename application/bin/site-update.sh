@@ -25,6 +25,13 @@ then
 fi
 
 
+# Set PHP Version
+sed -i "s/AddHandler php-fastcgi[0-9\.]*/AddHandler php-fastcgi$PHPVERSION/" "$SITES_ROOT/$CURRENT/vhost.conf"
+
+# Set aliases
+sed -Ei "s/ServerAlias (.*)/ServerAlias $ALIASES/" "$SITES_ROOT/$CURRENT/vhost.conf"
+
+
 # Move site root and update config files
 if [[ "$CURRENT" != "$NEW" ]]
 then
@@ -41,13 +48,6 @@ then
 	rm "/etc/cron.d/${CURRENT//./-}"
 	ln -s "$SITES_ROOT/$NEW/cron" "/etc/cron.d/${NEW//./-}"
 fi
-
-
-# Set PHP Version
-sed -i "s/AddHandler php-fastcgi[0-9\.]*/AddHandler php-fastcgi$PHPVERSION/" "$SITES_ROOT/$NEW/vhost.conf"
-
-# Set aliases
-sed -Ei "s/ServerAlias (.*)/ServerAlias $ALIASES/" "$SITES_ROOT/$NEW/vhost.conf"
 
 
 # Restart apache
