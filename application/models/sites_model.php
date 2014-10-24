@@ -255,7 +255,7 @@ class Sites_model extends CI_Model {
 			throw new Exception("The site does not exists.");
 		}
 		
-		if ($old != $new && $this->get($new))
+		if ($old['fullname'] != $new['fullname'] && $this->get($new))
 		{
 			throw new Exception("The new site already exists.");
 		}
