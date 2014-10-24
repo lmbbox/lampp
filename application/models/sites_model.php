@@ -89,7 +89,7 @@ class Sites_model extends CI_Model {
 	public function validate_site(&$site, &$errors = array())
 	{
 		$errors				= array();
-		$required_fields	= array('name', 'suffix', 'phpversion', 'aliases');
+		$required_fields	= array('name', 'suffix');
 		$valid_fields		= array('fullname', 'name', 'suffix', 'phpversion', 'aliases', 'template');
 		
 		// Check required fields
