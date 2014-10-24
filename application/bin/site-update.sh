@@ -28,27 +28,27 @@ fi
 # Move site root and update config files
 if [[ "$CURRENT" != "$NEW" ]]
 then
-	sudo mv "$SITES_ROOT/$CURRENT" "$SITES_ROOT/$NEW"
-	sudo sed -i "s/$CURRENT/$NEW/" "$SITES_ROOT/$NEW/vhost.conf" "$SITES_ROOT/$NEW/cron"
+	mv "$SITES_ROOT/$CURRENT" "$SITES_ROOT/$NEW"
+	sed -i "s/$CURRENT/$NEW/" "$SITES_ROOT/$NEW/vhost.conf" "$SITES_ROOT/$NEW/cron"
 	
 	# Setup Apache Vhost file and enable site
 	rm "/etc/apache2/sites-enabled/$CURRENT.conf"
 	rm "/etc/apache2/sites-available/$CURRENT.conf"
-	sudo ln -s "$SITES_ROOT/$NEW/vhost.conf" "/etc/apache2/sites-available/$NEW.conf"
-	sudo ln -s "../sites-available/$NEW.conf" "/etc/apache2/sites-enabled/$NEW.conf"
+	ln -s "$SITES_ROOT/$NEW/vhost.conf" "/etc/apache2/sites-available/$NEW.conf"
+	ln -s "../sites-available/$NEW.conf" "/etc/apache2/sites-enabled/$NEW.conf"
 	
 	# Link Cron file
 	rm "/etc/cron.d/${CURRENT//./-}"
-	sudo ln -s "$SITES_ROOT/$NEW/cron" "/etc/cron.d/${NEW//./-}"
+	ln -s "$SITES_ROOT/$NEW/cron" "/etc/cron.d/${NEW//./-}"
 fi
 
 
 # Set PHP Version
-sudo sed -i "s/AddHandler php-fastcgi[0-9\.]*/AddHandler php-fastcgi$PHPVERSION/" "$SITES_ROOT/$NEW/vhost.conf"
+sed -i "s/AddHandler php-fastcgi[0-9\.]*/AddHandler php-fastcgi$PHPVERSION/" "$SITES_ROOT/$NEW/vhost.conf"
 
 # Set aliases
-sudo sed -Ei "s/ServerAlias (.*)/ServerAlias $ALIASES/" "$SITES_ROOT/$NEW/vhost.conf"
+sed -Ei "s/ServerAlias (.*)/ServerAlias $ALIASES/" "$SITES_ROOT/$NEW/vhost.conf"
 
 
 # Restart apache
-sudo service apache2 restart
+service apache2 restart

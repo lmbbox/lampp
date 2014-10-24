@@ -19,27 +19,27 @@ fi
 
 
 # Copy base site root and update config files
-sudo cp -a "$SITES_ROOT/$TEMPLATE" "$SITES_ROOT/$DOMAIN"
-sudo sed -i "s/$TEMPLATE/$DOMAIN/" "$SITES_ROOT/$DOMAIN/vhost.conf" "$SITES_ROOT/$DOMAIN/cron"
+cp -a "$SITES_ROOT/$TEMPLATE" "$SITES_ROOT/$DOMAIN"
+sed -i "s/$TEMPLATE/$DOMAIN/" "$SITES_ROOT/$DOMAIN/vhost.conf" "$SITES_ROOT/$DOMAIN/cron"
 
 # Set PHP Version
-sudo sed -i "s/AddHandler php-fastcgi[0-9\.]*/AddHandler php-fastcgi$PHPVERSION/" "$SITES_ROOT/$DOMAIN/vhost.conf"
+sed -i "s/AddHandler php-fastcgi[0-9\.]*/AddHandler php-fastcgi$PHPVERSION/" "$SITES_ROOT/$DOMAIN/vhost.conf"
 
 # Set aliases
-sudo sed -Ei "s/ServerAlias (.*)/ServerAlias \1 $ALIASES/" "$SITES_ROOT/$DOMAIN/vhost.conf"
+sed -Ei "s/ServerAlias (.*)/ServerAlias \1 $ALIASES/" "$SITES_ROOT/$DOMAIN/vhost.conf"
 
 
 # Link Cron file
-sudo ln -s "$SITES_ROOT/$DOMAIN/cron" "/etc/cron.d/${DOMAIN//./-}"
+ln -s "$SITES_ROOT/$DOMAIN/cron" "/etc/cron.d/${DOMAIN//./-}"
 
 
 # Setup Apache Vhost file and enable site
-sudo ln -s "$SITES_ROOT/$DOMAIN/vhost.conf" "/etc/apache2/sites-available/$DOMAIN.conf"
-sudo ln -s "../sites-available/$DOMAIN.conf" "/etc/apache2/sites-enabled/$DOMAIN.conf"
+ln -s "$SITES_ROOT/$DOMAIN/vhost.conf" "/etc/apache2/sites-available/$DOMAIN.conf"
+ln -s "../sites-available/$DOMAIN.conf" "/etc/apache2/sites-enabled/$DOMAIN.conf"
 
 
 # Restart apache
-sudo service apache2 restart
+service apache2 restart
 
 
 # Generate MySQL username, password, and database name
