@@ -40,18 +40,3 @@ ln -s "../sites-available/$DOMAIN.conf" "/etc/apache2/sites-enabled/$DOMAIN.conf
 
 # Restart apache
 service apache2 reload
-
-
-# Generate MySQL username, password, and database name
-dbname="$(echo $DOMAIN | tr -d "[:space:][:punct:]" | head -c 32)"
-dbuser="$(echo $DOMAIN | tr -d "[:space:][:punct:]" | head -c 16)"
-dbpass="$(cat /dev/urandom | tr -cd "[:alnum:]" | head -c 32)"
-
-mysql -h $MYSQL_HOST -u $MYSQL_USER -p${MYSQL_PASS} -e "CREATE DATABASE $dbname DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci; GRANT ALL ON $dbname.* TO $dbuser@localhost IDENTIFIED BY '$dbpass'; FLUSH PRIVILEGES;"
-
-echo "host: $mysqlhost" > "$SITES_ROOT/$DOMAIN/database.conf"
-echo "user: $dbuser" >> "$SITES_ROOT/$DOMAIN/database.conf"
-echo "pass: $dbpass" >> "$SITES_ROOT/$DOMAIN/database.conf"
-echo "db: $dbname" >> "$SITES_ROOT/$DOMAIN/database.conf"
-
-echo "MySQL Database and User created. Details are in the file '$SITES_ROOT/$DOMAIN/database.conf'"
