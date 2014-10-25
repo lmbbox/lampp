@@ -189,7 +189,7 @@ class Sites_model extends CI_Model {
 			
 			// Get PHP Version
 			$matches = array();
-			preg_match('/AddHandler php-fastcgi([0-9\.])*/', file_get_contents("{$site['server_path']}/vhost.conf"), $matches);
+			preg_match('/AddHandler php-fastcgi([0-9\.]*)/', file_get_contents("{$site['server_path']}/vhost.conf"), $matches);
 			$parts['phpversion'] = $matches[1] ?: '';
 			
 			// Get Aliases and explode to new lines
