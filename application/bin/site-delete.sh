@@ -23,4 +23,4 @@ rm -rf "$SITES_ROOT/$DOMAIN"
 
 
 # Restart apache
-service apache2 restart
+service apache2 reload

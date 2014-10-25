@@ -51,4 +51,4 @@ fi
 
 
 # Restart apache
-service apache2 restart
+service apache2 reload

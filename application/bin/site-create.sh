@@ -39,7 +39,7 @@ ln -s "../sites-available/$DOMAIN.conf" "/etc/apache2/sites-enabled/$DOMAIN.conf
 
 
 # Restart apache
-service apache2 restart
+service apache2 reload
 
 
 # Generate MySQL username, password, and database name
