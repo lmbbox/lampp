@@ -81,7 +81,7 @@
 						'label': 'Template:',
 						'name': 'template.value',
 						'type': 'select',
-						'default': '',
+						'default': 'generate_dbinfo',
 					},
 				],
 				'events':
