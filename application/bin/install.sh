@@ -20,8 +20,8 @@ cp "$LAMPP_ROOT/application/config/sudoers" "/etc/sudoers.d/lampp"
 
 
 # Setup new system user/group and set ownership
-useradd --system --home-dir "$LAMPP_ROOT" --shell /bin/sh lampp
-chown -R lampp:lampp "$LAMPP_ROOT"
+#useradd --system --home-dir "$LAMPP_ROOT" --shell /bin/sh lampp
+#chown -R lampp:lampp "$LAMPP_ROOT"
 
 
 ## Added Apache site config, enable, and restart.
