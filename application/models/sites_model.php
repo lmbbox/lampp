@@ -40,6 +40,7 @@ class Sites_model extends CI_Model {
 		$return_var = NULL;
 		log_message('debug', __METHOD__ . ": Running the command \"$command\"");
 		exec($command, $output, $return_var);
+		log_message('debug', __METHOD__ . ": Command exit code '$return_var'");
 		log_message('debug', __METHOD__ . ": Command output: \n" . var_export($output, TRUE));
 		
 		// Check if command was successful
