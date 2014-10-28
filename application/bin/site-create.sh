@@ -17,6 +17,13 @@ then
 	exit 1
 fi
 
+# Check if site root $DOMAIN does not exists
+if [[ -d "$SITES_ROOT/$DOMAIN" ]]
+then
+	echo "The new site already exists."
+	exit 1
+fi
+
 
 # Copy base site root and update config files
 cp -a "$SITES_ROOT/$TEMPLATE" "$SITES_ROOT/$DOMAIN"
