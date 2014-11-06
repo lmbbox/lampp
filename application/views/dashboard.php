@@ -75,9 +75,9 @@
 				<dt>IP</dt>
 				<dd><?php echo $_SERVER['SERVER_ADDR']; ?></dd>
 				<dt>Username</dt>
-				<dd>utadmin</dd>
+				<dd>admin</dd>
 				<dt>Password</dt>
-				<dd>utadmin</dd>
+				<dd>pass</dd>
 				<br />
 				<dt>Web Server</dt>
 				<dd><?php echo $_SERVER['SERVER_SOFTWARE']; ?></dd>
@@ -98,7 +98,7 @@
 				<dt>Username</dt>
 				<dd>root</dd>
 				<dt>Password</dt>
-				<dd>utadmin</dd>
+				<dd>pass</dd>
 				<br />
 				<dt>Memcached Details</dt>
 				<dd>&nbsp;</dd>
