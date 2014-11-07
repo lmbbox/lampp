@@ -94,7 +94,7 @@ class Sites_model extends CI_Model {
 	{
 		$errors				= array();
 		$required_fields	= array('name', 'suffix');
-		$valid_fields		= array('fullname', 'name', 'suffix', 'phpversion', 'aliases', 'template');
+		$valid_fields		= array('fullname', 'name', 'suffix', 'phpversion', 'documentroot', 'aliases', 'template');
 		
 		// Check required fields
 		if (empty($site) || !is_array($site) || 2 !== count(array_intersect($required_fields, array_keys($site))))
@@ -157,6 +157,7 @@ class Sites_model extends CI_Model {
 						);
 					}
 					// Pass on through to regex check
+				case 'documentroot':
 				case 'fullname':
 				default:
 					if (preg_match('/(\.\.)|([^a-z0-9\-\.])/', $value))
@@ -191,6 +192,11 @@ class Sites_model extends CI_Model {
 				continue;
 			}
 			
+			// Get DocumentRoot folder
+			$matches = array();
+			preg_match("@DocumentRoot {$site['server_path']}/htdocs(.*)@", file_get_contents("{$site['server_path']}/vhost.conf"), $matches);
+			$parts['documentroot'] = $matches[1] ?: '';
+			
 			// Get PHP Version
 			$matches = array();
 			preg_match('/AddHandler php-fastcgi([0-9\.]*)/', file_get_contents("{$site['server_path']}/vhost.conf"), $matches);
@@ -224,7 +230,7 @@ class Sites_model extends CI_Model {
 			throw new Exception("The site already exists.");
 		}
 		
-		$this->_exec("sudo -n '{$this->bin_root}/site-create.sh' '{$this->sites_template}' '{$site['fullname']}' '{$site['phpversion']}' '{$site['aliases']}'");
+		$this->_exec("sudo -n '{$this->bin_root}/site-create.sh' '{$this->sites_template}' '{$site['fullname']}' '{$site['phpversion']}' '{$site['aliases']}' '{$site['documentroot']}'");
 		
 		if (isset($site['template']) && !empty($site['template']))
 		{
@@ -265,7 +271,7 @@ class Sites_model extends CI_Model {
 		}
 		
 		// Update site
-		return $this->_exec("sudo -n '{$this->bin_root}/site-update.sh' '{$old['fullname']}' '{$new['fullname']}' '{$new['phpversion']}' '{$new['aliases']}'");
+		return $this->_exec("sudo -n '{$this->bin_root}/site-update.sh' '{$old['fullname']}' '{$new['fullname']}' '{$new['phpversion']}' '{$new['aliases']}' '{$site['documentroot']}'");
 	}
 	
 	public function move($old, &$new)

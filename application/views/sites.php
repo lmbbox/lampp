@@ -66,9 +66,21 @@
 						'default': '',
 					},
 					{
+						'label': 'Template:',
+						'name': 'template.value',
+						'type': 'select',
+						'default': 'generate_dbinfo',
+					},
+					{
 						'label': 'PHP Version:',
 						'name': 'phpversion.value',
 						'type': 'select',
+						'default': '',
+					},
+					{
+						'label': 'Document Root:',
+						'name': 'documentroot',
+						'type': 'text',
 						'default': '',
 					},
 					{
@@ -76,12 +88,6 @@
 						'name': 'aliases',
 						'type': 'textarea',
 						'default': '',
-					},
-					{
-						'label': 'Template:',
-						'name': 'template.value',
-						'type': 'select',
-						'default': 'generate_dbinfo',
 					},
 				],
 				'events':

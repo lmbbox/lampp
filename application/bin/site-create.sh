@@ -8,6 +8,7 @@ TEMPLATE="$1"
 DOMAIN="$2"
 PHPVERSION="$3"
 ALIASES="$4"
+DOCROOT=$(readlink -f "$SITES_ROOT/$DOMAIN/htdocs/$5")
 
 
 # Check if site root $TEMPLATE exists
@@ -31,6 +32,10 @@ sed -i "s/$TEMPLATE/$DOMAIN/" "$SITES_ROOT/$DOMAIN/vhost.conf" "$SITES_ROOT/$DOM
 
 # Set PHP Version
 sed -i "s/AddHandler php-fastcgi[0-9\.]*/AddHandler php-fastcgi$PHPVERSION/" "$SITES_ROOT/$DOMAIN/vhost.conf"
+
+# Set DocumentRoot
+sed -i "s#DocumentRoot $SITES_ROOT/$DOMAIN/htdocs.*\$#DocumentRoot $DOCROOT#" "$SITES_ROOT/$DOMAIN/vhost.conf"
+sed -i "s#<Directory $SITES_ROOT/$DOMAIN/htdocs.*>\$#<Directory $DOCROOT>#" "$SITES_ROOT/$DOMAIN/vhost.conf"
 
 # Set aliases
 sed -Ei "s/ServerAlias (.*)/ServerAlias \1 $ALIASES/" "$SITES_ROOT/$DOMAIN/vhost.conf"
