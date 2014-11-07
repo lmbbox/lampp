@@ -124,6 +124,15 @@ class Sites_model extends CI_Model {
 						);
 					}
 					break;
+				case 'documentroot':
+					if (preg_match('/(\.\.)|([^a-z0-9\-\.\/])/', $value))
+					{
+						$errors[] = array(
+							'name'		=> $field,
+							'status'	=> 'Field has an invalid value.',
+						);
+					}
+					break;
 				case 'aliases':
 					// Reformat to space seperated single line from multiline
 					$value = explode("\n", $value);
@@ -157,7 +166,6 @@ class Sites_model extends CI_Model {
 						);
 					}
 					// Pass on through to regex check
-				case 'documentroot':
 				case 'fullname':
 				default:
 					if (preg_match('/(\.\.)|([^a-z0-9\-\.])/', $value))
@@ -271,7 +279,7 @@ class Sites_model extends CI_Model {
 		}
 		
 		// Update site
-		return $this->_exec("sudo -n '{$this->bin_root}/site-update.sh' '{$old['fullname']}' '{$new['fullname']}' '{$new['phpversion']}' '{$new['aliases']}' '{$site['documentroot']}'");
+		return $this->_exec("sudo -n '{$this->bin_root}/site-update.sh' '{$old['fullname']}' '{$new['fullname']}' '{$new['phpversion']}' '{$new['aliases']}' '{$new['documentroot']}'");
 	}
 	
 	public function move($old, &$new)
