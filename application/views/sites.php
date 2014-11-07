@@ -95,10 +95,12 @@
 					'onInitCreate': function ( )
 					{
 						this.show('template.value');
+						this.hide('documentroot.value');
 					},
 					'onInitEdit': function ( )
 					{
 						this.hide('template.value');
+						this.show('documentroot.value');
 					},
 				},
 			} );

@@ -230,7 +230,7 @@ class Sites_model extends CI_Model {
 			throw new Exception("The site already exists.");
 		}
 		
-		$this->_exec("sudo -n '{$this->bin_root}/site-create.sh' '{$this->sites_template}' '{$site['fullname']}' '{$site['phpversion']}' '{$site['aliases']}' '{$site['documentroot']}'");
+		$this->_exec("sudo -n '{$this->bin_root}/site-create.sh' '{$this->sites_template}' '{$site['fullname']}' '{$site['phpversion']}' '{$site['aliases']}'");
 		
 		if (isset($site['template']) && !empty($site['template']))
 		{
