@@ -8,7 +8,7 @@ CURRENT="$1"
 NEW="$2"
 PHPVERSION="$3"
 ALIASES="$4"
-DOCROOT=$(readlink -f "$SITES_ROOT/$DOMAIN/htdocs/$5")
+DOCROOT=$(readlink -f "$SITES_ROOT/$CURRENT/htdocs/$5")
 
 
 # Check if site root $CURRENT exists
@@ -25,13 +25,20 @@ then
 	exit 1
 fi
 
+# Check if site's $DOCROOT exists
+if [[ ! -d "$DOCROOT" ]]
+then
+	echo "The document root does not exist."
+	exit 1
+fi
+
 
 # Set PHP Version
 sed -i "s/AddHandler php-fastcgi[0-9\.]*/AddHandler php-fastcgi$PHPVERSION/" "$SITES_ROOT/$CURRENT/vhost.conf"
 
 # Set DocumentRoot
-sed -i "s#DocumentRoot $SITES_ROOT/$DOMAIN/htdocs.*\$#DocumentRoot $DOCROOT#" "$SITES_ROOT/$DOMAIN/vhost.conf"
-sed -i "s#<Directory $SITES_ROOT/$DOMAIN/htdocs.*>\$#<Directory $DOCROOT>#" "$SITES_ROOT/$DOMAIN/vhost.conf"
+sed -i "s#DocumentRoot $SITES_ROOT/$CURRENT/htdocs.*\$#DocumentRoot $DOCROOT#" "$SITES_ROOT/$CURRENT/vhost.conf"
+sed -i "s#<Directory $SITES_ROOT/$CURRENT/htdocs.*>\$#<Directory $DOCROOT>#" "$SITES_ROOT/$CURRENT/vhost.conf"
 
 # Set aliases
 sed -Ei "s/ServerAlias (.*)/ServerAlias $ALIASES/" "$SITES_ROOT/$CURRENT/vhost.conf"
